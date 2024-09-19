@@ -1,6 +1,8 @@
 // DOM element references
 const userForm = document.getElementById("form");
 const tableBody = document.querySelector("#entriesTableBody");
+
+// For validation purposes
 const nameValidation = document.getElementById("name");
 const passwordValidation = document.getElementById("password");
 const dobValidation = document.getElementById("dob");
@@ -15,15 +17,22 @@ const retrieveEntries = () => {
 // Display entries in the table
 const displayEntries = () => {
     const entries = retrieveEntries();
-    tableBody.innerHTML = entries.map(entry => `
-        <tr>
-            <td>${entry.name}</td>
-            <td>${entry.email}</td>
-            <td>${entry.password}</td>
-            <td>${entry.dob}</td>
-            <td>${entry.acceptTerms ? 'Yes' : 'No'}</td>
-        </tr>
-    `).join('');
+
+    tableBody.innerHTML = ""; // Clear existing rows
+
+    // Add table rows for each entry
+    entries.forEach(entry => {
+        const row = `
+            <tr>
+                <td>${entry.name}</td>
+                <td>${entry.email}</td>
+                <td>${entry.password}</td>
+                <td>${entry.dob}</td>
+                <td>${entry.acceptTerms ? 'Yes' : 'No'}</td>
+            </tr>
+        `;
+        tableBody.innerHTML += row;
+    });
 };
 
 // Validate date of birth
@@ -60,10 +69,10 @@ const validatePassword = () => {
 // Save form data
 const saveUserForm = (event) => {
     event.preventDefault();
-    
-    // Ensure form fields are valid before processing
+
+    // Check validity of form fields
     if (!passwordValidation.checkValidity() || !nameValidation.checkValidity() || !dobValidation.checkValidity()) {
-        return;
+        return; // Don't save if there are validation errors
     }
 
     // Create a new entry object
