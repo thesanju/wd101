@@ -61,10 +61,12 @@ const validatePassword = () => {
 const saveUserForm = (event) => {
     event.preventDefault();
     
+    // Ensure form fields are valid before processing
     if (!passwordValidation.checkValidity() || !nameValidation.checkValidity() || !dobValidation.checkValidity()) {
         return;
     }
 
+    // Create a new entry object
     const entry = {
         name: nameValidation.value,
         email: document.getElementById("email").value,
@@ -73,10 +75,12 @@ const saveUserForm = (event) => {
         acceptTerms: acceptTermsCheckbox.checked,
     };
 
+    // Retrieve current entries from localStorage and add the new entry
     const userEntries = retrieveEntries();
     userEntries.push(entry);
     localStorage.setItem("userentries", JSON.stringify(userEntries));
 
+    // Display entries immediately and reset the form
     displayEntries();
     userForm.reset();
 };
